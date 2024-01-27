@@ -4,7 +4,6 @@
 - mongodb
 - mailtrap
 
-![Course Image](./nextjs.png)
 
 
 ## Getting Started
