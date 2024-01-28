@@ -1,9 +1,9 @@
 export default function Contact() {
 	return (
 		<>
-			<div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8 mt-24">
+			<div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8 my-24">
 				<div className="flex flex-col lg:flex-row">
-					<div className="lg:w-1/2  mb-4 lg:mb-0 ">
+					<div className="lg:w-1/2  mb-4 lg:mb-0 map">
 						<iframe
 							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15137.349917208941!2d73.82998565916425!3d18.468366506084312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf8d94414f8f%3A0xc6091a80e79be235!2sSinhgad%20College%20of%20Engineering%2C%20Pune!5e0!3m2!1sen!2sin!4v1706433276766!5m2!1sen!2sin"
 							width="100%"

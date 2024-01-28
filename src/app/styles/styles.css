@@ -1,4 +1,4 @@
-.container {
-    padding: 4rem 0rem;
-	background-color: #fff;
+.map iframe {
+	filter: grayscale(100%) invert(90%) contrast(83);
+	-webkit-filter: grayscale(100%) invert(90%) contrast(83);
 }
