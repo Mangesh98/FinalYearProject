@@ -3,8 +3,11 @@ import "./globals.css";
 // import "react-toastify/dist/ReactToastify.css";
 
 export const metadata = {
-	title: "EyeQ",
-	description: "Eye disease classification model",
+	title: {
+		default: "EyeQ - Eye Disease Classification Model",
+		template: "%s | EyeQ",
+	},
+	description: "Eye Disease Classification Model",
 };
 
 export default function RootLayout({
