@@ -1,4 +1,5 @@
 .map iframe {
-	filter: grayscale(100%) invert(90%) contrast(83);
-	-webkit-filter: grayscale(100%) invert(90%) contrast(83);
+	/*filter: grayscale(100%) invert(90%) contrast(83);
+	-webkit-filter: invert(90%) hue-rotate(180deg);
+	*/filter: invert(90%) hue-rotate(180deg);
 }

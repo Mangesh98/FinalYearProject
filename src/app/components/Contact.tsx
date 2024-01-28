@@ -1,3 +1,4 @@
+import "@/app/styles/styles.css";
 export default function Contact() {
 	return (
 		<>
