@@ -1,4 +1,5 @@
 "use client";
+import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 
 export default function Services() {
@@ -7,7 +8,8 @@ export default function Services() {
 			<div className="w-full fixed bg-gray-100">
 				<Navbar />
 			</div>
-			<div className="container mx-auto mt-24 px-4 py-12">
+			{/* <div className="container mx-auto mt-24 px-4 py-12"> */}
+			<div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8 mt-24">
 				<h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-6">
 					Services
 				</h1>
@@ -45,6 +47,9 @@ export default function Services() {
 					and individuals. If you have any questions or would like to learn more
 					about our Eye Disease Classification Model, feel free to contact us.
 				</p>
+			</div>
+			<div className="mt-10">
+				<Footer />
 			</div>
 		</>
 	);

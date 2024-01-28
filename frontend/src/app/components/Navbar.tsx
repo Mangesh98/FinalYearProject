@@ -50,10 +50,10 @@ export default function Navbar() {
 							height={50}
 							src="https://flowbite.com/docs/images/logo.svg"
 							className="h-8"
-							alt="Eyes Logo"
+							alt="EyeQ Logo"
 						/>
 						<span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-							Eyes
+							EyeQ
 						</span>
 					</Link>
 					<div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
