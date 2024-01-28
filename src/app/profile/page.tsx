@@ -2,7 +2,7 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
@@ -11,11 +11,11 @@ export default function ProfilePage() {
 	const logout = async () => {
 		try {
 			await axios.get("/api/users/logout");
-			toast.success("Logout successful");
+			// toast.success("Logout successful");
 			router.push("/login");
 		} catch (error: any) {
 			console.log(error.message);
-			toast.error(error.message);
+			// toast.error(error.message);
 		}
 	};
 

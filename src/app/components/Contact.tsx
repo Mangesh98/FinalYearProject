@@ -1,7 +1,6 @@
 export default function Contact() {
 	return (
 		<>
-			{/* <div className="container mx-auto mt-24 px-4 py-12"> */}
 			<div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8 mt-24">
 				<div className="flex flex-col lg:flex-row">
 					<div className="lg:w-1/2  mb-4 lg:mb-0 ">
