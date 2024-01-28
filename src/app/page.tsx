@@ -4,6 +4,7 @@ import Hero from "./components/Hero";
 import Features from "./components/Features";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Review from "./components/Review";
 
 export default function Home() {
 	return (
@@ -16,6 +17,9 @@ export default function Home() {
 			</div>
 			<div className="flex-none w-full h-auto flex items-center justify-center border-b border-gray-200 dark:border-gray-600">
 				<Features />
+			</div>
+			<div className="flex-none w-full h-auto flex items-center justify-center border-b border-gray-200 dark:border-gray-600">
+				<Review />
 			</div>
 			<div className="flex-none w-full h-auto flex items-center justify-center border-b border-gray-200 dark:border-gray-600">
 				<Contact />
