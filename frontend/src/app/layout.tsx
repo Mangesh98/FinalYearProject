@@ -1,5 +1,6 @@
-import { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata = {
 	title: "Create Next App",
@@ -13,8 +14,20 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<Toaster position="top-center" reverseOrder={false} />
-			<body className={( "dark:bg-gray-900")}>{children}</body>
+			<ToastContainer
+				position="top-center"
+				autoClose={2000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="dark"
+			/>
+			{/*  transition: Bounce, */}
+			<body className={"dark:bg-gray-900"}>{children}</body>
 		</html>
 	);
 }

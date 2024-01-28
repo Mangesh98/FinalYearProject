@@ -2,11 +2,12 @@
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Navbar() {
 	const router = useRouter();
+	const pathname = usePathname();
 	const logout = async () => {
 		try {
 			await axios.get("/api/users/logout");
@@ -17,9 +18,28 @@ export default function Navbar() {
 			toast.error(error.message);
 		}
 	};
+	function NavItem({ href, currentPath, children }:any) {
+		const isActive = href === currentPath;
+
+		return (
+			<li>
+				<Link href={href}>
+					<div
+						className={`block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent ${
+							isActive
+								? "text-blue-700 dark:text-blue-500"
+								: "text-gray-900 hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white"
+						}`}
+					>
+						{children}
+					</div>
+				</Link>
+			</li>
+		);
+	}
 	return (
 		<>
-			<nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+			<nav className="bg-white dark:bg-gray-900 fixed w-full z-30 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
 				<div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 					<Link
 						href="/"
@@ -74,39 +94,18 @@ export default function Navbar() {
 						id="navbar-sticky"
 					>
 						<ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-							<li>
-								<Link
-									href="#"
-									className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-									aria-current="page"
-								>
-									Home
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="#"
-									className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-								>
-									About
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="#"
-									className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-								>
-									Services
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="#"
-									className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-								>
-									Contact
-								</Link>
-							</li>
+							<NavItem href="/" currentPath={pathname}>
+								Home
+							</NavItem>
+							<NavItem href="/about" currentPath={pathname}>
+								About
+							</NavItem>
+							<NavItem href="/services" currentPath={pathname}>
+								Services
+							</NavItem>
+							<NavItem href="/contact" currentPath={pathname}>
+								Contact
+							</NavItem>
 						</ul>
 					</div>
 				</div>
