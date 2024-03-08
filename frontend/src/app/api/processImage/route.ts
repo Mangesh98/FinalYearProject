@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios"; // Import axios for HTTP requests
-import { data } from "autoprefixer";
-
-export const config = {
-	// ... other config (if needed)
-	api: {
-		baseUrl: "http://127.0.0.1:5000", // Replace with your Flask API URL
-	},
-};
 
 export async function POST(req: NextRequest) {
+	const baseUrl = process.env.BACKEND_URL;
 	const formData = await req.formData();
 	const file = formData.get("file") as File;
 
@@ -19,16 +12,13 @@ export async function POST(req: NextRequest) {
 
 	try {
 		// Send the image data to Flask API
-		const response = await axios.post(
-			`${config.api.baseUrl}/upload_image`,
-			formData
-		);
+		const response = await axios.post(`${baseUrl}/upload_image`, formData);
 
 		console.log(response.data);
 
 		// Handle successful response from Flask API
 		if (response.data.success) {
-			let imageUrl = config.api.baseUrl + response.data.imageUrl;
+			let imageUrl = baseUrl + response.data.imageUrl;
 			return NextResponse.json({
 				message: "Image uploaded successfully",
 				imageUrl: imageUrl,

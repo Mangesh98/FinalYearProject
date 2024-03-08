@@ -8,7 +8,6 @@ export default function UploadImage() {
 	const [processedImage1, setProcessedImage1] = useState<string>("");
 	const [processedImage2, setProcessedImage2] = useState<string>("");
 	const fileInputRef = useRef<HTMLInputElement>(null);
-	const baseUrl = "http://127.0.0.1:5000";
 	const handleUpload = async () => {
 		setUploading(true);
 		try {
@@ -27,13 +26,13 @@ export default function UploadImage() {
 					"Content-Type": "multipart/form-data",
 				},
 			});
-			console.log(response.data);
+			// console.log(response.data);
 
 			if (response.data.success) {
 				// Update state with processed image data received from response
 				setProcessedImage1(response.data.imageUrl);
-				console.log(processedImage1);
-				console.log(response.data.imageUrl);
+				// console.log(processedImage1);
+				// console.log(response.data.imageUrl);
 			} else {
 				alert("An error occurred during processing");
 			}
