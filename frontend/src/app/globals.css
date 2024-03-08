@@ -6,3 +6,7 @@ body {
 	display: flex;
 	flex-direction: column;
 }
+
+.map iframe {
+	filter: invert(90%) hue-rotate(180deg);
+}

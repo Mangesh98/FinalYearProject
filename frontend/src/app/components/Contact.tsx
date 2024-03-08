@@ -1,49 +1,49 @@
 "use client";
+// Importing necessary dependencies
 import axios from "axios";
-import "@/app/styles/styles.css";
 import React, { useState, useEffect } from "react";
 import Loading from "../loading";
 import { ToastContainer, toast } from "react-toastify";
+import { Tooltip } from "react-tooltip";
 import "react-toastify/dist/ReactToastify.css";
 import "react-tooltip/dist/react-tooltip.css";
-import ReactTooltip, { Tooltip } from "react-tooltip";
 
+// Main Contact component
 export default function Contact() {
+	// State for form data and loading status
 	const [contactData, setContactData] = useState({
 		username: "",
 		email: "",
 		message: "",
 	});
-
-	const [loading, setLoading] = React.useState(false);
-	const [buttonDisabled, setButtonDisabled] = React.useState(false);
+	const [loading, setLoading] = useState(false);
+	const [buttonDisabled, setButtonDisabled] = useState(false);
 	const [checkboxChecked, setCheckboxChecked] = useState(false);
 
+	// Function to handle form submission
 	const onSubmit = async () => {
 		try {
 			setLoading(true);
-			console.log("Submit button clicked");
 			const response = await axios.post("/api/users/contact", contactData);
-			// console.log(response);
 			toast.success(response.data.message);
 			setContactData({
 				...contactData,
 				message: "",
 			});
 		} catch (error) {
-			// console.error("Error Sending Message:", error);
+			console.error("Error Sending Message:", error);
 			toast.error("Error Sending Message");
 		} finally {
 			setLoading(false);
 		}
 	};
+
+	// Fetch user data on component mount
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const res = await axios.get("/api/users/me");
 				const userDataFromApi = res.data.data;
-				console.log(userDataFromApi);
-
 				setContactData({
 					...contactData,
 					username: userDataFromApi.username,
@@ -54,13 +54,18 @@ export default function Contact() {
 			}
 		};
 		fetchData();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	// Update button disabled state based on form inputs
 	useEffect(() => {
 		setButtonDisabled(!contactData.message.trim() || !checkboxChecked);
 	}, [contactData.message, checkboxChecked]);
+
+	// Render the component
 	return (
 		<>
+			{/* Toast container for displaying notifications */}
 			<div className="toaster">
 				<ToastContainer
 					position="top-right"
@@ -75,11 +80,14 @@ export default function Contact() {
 					theme="dark"
 				/>
 			</div>
+
+			{/* Conditional rendering based on loading state */}
 			{loading ? (
 				<Loading />
 			) : (
 				<div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8 my-24">
 					<div className="flex flex-col lg:flex-row">
+						{/* Google Map iframe */}
 						<div className="lg:w-1/2  mb-4 lg:mb-0 map">
 							<iframe
 								src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15137.349917208941!2d73.82998565916425!3d18.468366506084312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf8d94414f8f%3A0xc6091a80e79be235!2sSinhgad%20College%20of%20Engineering%2C%20Pune!5e0!3m2!1sen!2sin!4v1706433276766!5m2!1sen!2sin"
@@ -90,8 +98,11 @@ export default function Contact() {
 								referrerPolicy="no-referrer-when-downgrade"
 							></iframe>
 						</div>
-						<div className="lg:w-1/2 dark:text-white ">
+
+						{/* Contact Form */}
+						<div className="lg:w-1/2 dark:text-white">
 							<form className="mx-auto max-w-lg">
+								{/* Form Header */}
 								<p className="text-base text-gray-900 dark:text-white font-semibold">
 									Get in Touch Today
 								</p>
@@ -101,6 +112,8 @@ export default function Contact() {
 								<p className="text-base text-gray-900 dark:text-white font-normal mb-4">
 									Connect our team for more information or a free demonstration.
 								</p>
+
+								{/* First Name Input */}
 								<div className="mb-5">
 									<label
 										htmlFor="name"
@@ -117,6 +130,8 @@ export default function Contact() {
 										required
 									/>
 								</div>
+
+								{/* Email Input */}
 								<div className="mb-5">
 									<label
 										htmlFor="email"
@@ -134,6 +149,8 @@ export default function Contact() {
 										required
 									/>
 								</div>
+
+								{/* Message Textarea */}
 								<div className="mb-5">
 									<label
 										htmlFor="message"
@@ -156,6 +173,8 @@ export default function Contact() {
 										placeholder="Type your message..."
 									></textarea>
 								</div>
+
+								{/* Checkbox for Terms */}
 								<div className="flex items-start mb-5">
 									<div className="flex items-center h-5">
 										<input
@@ -174,6 +193,8 @@ export default function Contact() {
 										I accept the terms
 									</label>
 								</div>
+
+								{/* Submit Button with Tooltip */}
 								{buttonDisabled ? (
 									<button
 										type="button"
