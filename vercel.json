@@ -1,0 +1,11 @@
+{
+	"builds": [
+		{
+			"src": "frontend",
+			"use": "@vercel/next",
+			"config": {
+				"build": "production"
+			}
+		}
+	]
+}
