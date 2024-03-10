@@ -3,8 +3,7 @@ from werkzeug.utils import secure_filename
 import os
 from flask_cors import CORS
 import uuid
-from image_processing import convert_gray
-from testModel import test_model_proc
+from image_processing import convert_gray, test_model_proc
 from flask import current_app
 
 app = Flask(__name__)
@@ -13,7 +12,7 @@ CORS(app)
 ALLOWED_EXTENSIONS = set(["png", "jpg", "jpeg"])
 UPLOAD_FOLDER = "static/uploads/"
 
-app.secret_key = "supersecretkey"
+
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 
@@ -22,14 +21,26 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def delete_all_files_in_folder(folder):
-    for filename in os.listdir(folder):
-        file_path = os.path.join(folder, filename)
+def delete_folder_and_contents(folder_path):
+    if not os.path.exists(folder_path):
+        return  # Folder doesn't exist, nothing to delete
+
+    for filename in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, filename)
         try:
             if os.path.isfile(file_path):
-                os.unlink(file_path)
-        except Exception as e:
-            print(f"Error deleting file {file_path}: {e}")
+                os.remove(file_path)
+            elif os.path.isdir(file_path):
+                delete_folder_and_contents(file_path)  # Recursive call
+        except OSError as e:
+            print(f"Error deleting '{file_path}': {e}")
+            raise  # Re-raise the error for potential handling by the main program
+
+    try:
+        os.rmdir(folder_path)
+    except OSError as e:
+        print(f"Error deleting folder '{folder_path}': {e}")
+        raise
 
 
 @app.route("/")
@@ -52,8 +63,8 @@ def process_image():
             400,  # Bad request
         )
     # Delete Previous Images
-    delete_all_files_in_folder(app.config["UPLOAD_FOLDER"])
-
+    delete_folder_and_contents(app.config["UPLOAD_FOLDER"])
+    os.makedirs(app.config["UPLOAD_FOLDER"])
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         # Generate unique filename using uuid
@@ -68,8 +79,11 @@ def process_image():
 
         # Model testing
         absolute_path = os.path.join(current_app.root_path, image_url[1:])
-        print(absolute_path)
-        result_message = test_model_proc(absolute_path)
+        result_message, activation_urls = test_model_proc(
+            absolute_path, app.config["UPLOAD_FOLDER"]
+        )
+        activation_urls = [url.replace("\\", "/") for url in activation_urls]
+
         print(result_message)
 
         if grayscale_image is not None and threshold_image is not None:
@@ -82,6 +96,7 @@ def process_image():
                         "grayscale_image": grayscale_image,
                         "threshold_image": threshold_image,
                         "result": result_message,
+                        "activation_urls": activation_urls,
                     }
                 ),
                 200,

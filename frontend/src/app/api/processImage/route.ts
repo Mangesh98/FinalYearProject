@@ -25,6 +25,8 @@ export async function POST(req: NextRequest) {
 				threshold_image: baseUrl + response.data.threshold_image,
 				success: true,
 				result: response.data.result,
+				activation_urls: response.data.activation_urls,
+				base_url: baseUrl + "/",
 			});
 		} else {
 			// console.error("Error processing image in Flask API:", response.data);

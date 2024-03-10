@@ -7,10 +7,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function UploadImage() {
 	const [uploading, setUploading] = useState(false);
-	const [selectedImage, setSelectedImage] = useState("");
 	const [result, setResult] = useState("");
+	const [selectedImage, setSelectedImage] = useState("");
 	const [processedImage1, setProcessedImage1] = useState<string>("");
 	const [processedImage2, setProcessedImage2] = useState<string>("");
+	const [conv2d, setConv2d] = useState<string>("");
+	const [conv2d_1, setConv2d_1] = useState<string>("");
+	const [conv2d_2, setConv2d_2] = useState<string>("");
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const handleUpload = async () => {
 		setUploading(true);
@@ -34,11 +37,14 @@ export default function UploadImage() {
 
 			if (response.data.success) {
 				// Update state with processed image data received from response
+				let baseUrl = response.data.base_url;
 				setProcessedImage1(response.data.threshold_image);
 				setProcessedImage2(response.data.grayscale_image);
 				setResult(response.data.result);
-				console.log(result);
-				
+				setConv2d(baseUrl + response.data.activation_urls[0]);
+				setConv2d_1(baseUrl + response.data.activation_urls[1]);
+				setConv2d_2(baseUrl + response.data.activation_urls[2]);
+
 				toast.success("Image processed successfully");
 			} else {
 				toast.error("An error occurred during processing");
@@ -125,7 +131,9 @@ export default function UploadImage() {
 						{/* Display processed images */}
 						{processedImage1 && (
 							<>
-								<span className="w-52 text-red-700 block font-bold p-4 m-4 border border-red-600">{result}</span>
+								<span className="w-52 text-red-700 block font-bold p-4 m-4 border border-red-600">
+									{result}
+								</span>
 								<Image
 									src={processedImage1}
 									alt="Processed Image 1"
@@ -141,6 +149,15 @@ export default function UploadImage() {
 								width={200}
 								height={200}
 							/>
+						)}
+						{conv2d && (
+							<Image src={conv2d} alt="conv2d" width={1080} height={720} />
+						)}
+						{conv2d_1 && (
+							<Image src={conv2d_1} alt="conv2d_1" width={1080} height={720} />
+						)}
+						{conv2d_2 && (
+							<Image src={conv2d_2} alt="conv2d_2" width={1080} height={720} />
 						)}
 					</div>
 				</div>
