@@ -1,0 +1,9 @@
+Flask
+Werkzeug
+flask-cors
+uuid
+OpenCV-Python
+numpy
+tensorflow
+keras
+matplotlib

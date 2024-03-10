@@ -45,7 +45,7 @@ def delete_folder_and_contents(folder_path):
 
 @app.route("/")
 def hello_world():
-    return "Hello, Mangesh!"
+    return "This is Eye Disease Classification Model"
 
 
 @app.route("/process_image", methods=["POST"])
@@ -115,5 +115,4 @@ def process_image():
     )
 
 
-if __name__ == "__main__":
-    app.run()
+
