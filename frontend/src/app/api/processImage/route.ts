@@ -12,16 +12,17 @@ export async function POST(req: NextRequest) {
 
 	try {
 		// Send the image data to Flask API
-		const response = await axios.post(`${baseUrl}/upload_image`, formData);
+		const response = await axios.post(`${baseUrl}/process_image`, formData);
 
 		console.log(response.data);
 
 		// Handle successful response from Flask API
 		if (response.data.success) {
-			let imageUrl = baseUrl + response.data.imageUrl;
 			return NextResponse.json({
 				message: "Image uploaded successfully",
-				imageUrl: imageUrl,
+				imageUrl: baseUrl + response.data.imageUrl,
+				grayscale_image: baseUrl + response.data.grayscale_image,
+				threshold_image: baseUrl + response.data.threshold_image,
 				success: true,
 			});
 		} else {

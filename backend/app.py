@@ -3,6 +3,7 @@ from werkzeug.utils import secure_filename
 import os
 from flask_cors import CORS
 import uuid
+from image_processing import convert_gray
 
 app = Flask(__name__)
 CORS(app)
@@ -24,10 +25,8 @@ def hello_world():
     return "Hello, Mangesh!"
 
 
-@app.route("/upload_image", methods=["POST"])
-def upload_image():
-    print("Inside upload_image")
-
+@app.route("/process_image", methods=["POST"])
+def process_image():
     if "file" not in request.files:
         return (
             jsonify({"message": "No file part", "success": False}),
@@ -50,18 +49,27 @@ def upload_image():
         file.save(file_path)
         # Image successfully uploaded, return success response
         image_url = f"/static/uploads/{unique_filename}"
-        # backend\static\uploads\755918f3-bd06-4e48-a5be-2d52e50b0618.jpg
-        print(f"Full image URL: {image_url}")
-        return (
-            jsonify(
-                {
-                    "message": "Image uploaded successfully",
-                    "success": True,
-                    "imageUrl": image_url,
-                }
-            ),
-            200,
-        )
+
+        grayscale_image, threshold_image = convert_gray(image_url)
+
+        if grayscale_image is not None and threshold_image is not None:
+            return (
+                jsonify(
+                    {
+                        "message": "Image processed successfully",
+                        "success": True,
+                        "imageUrl": image_url,
+                        "grayscale_image": grayscale_image,
+                        "threshold_image": threshold_image,
+                    }
+                ),
+                200,
+            )
+        else:
+            return (
+                jsonify({"message": "Error processing image", "success": False}),
+                500,  # Internal Server Error
+            )
 
     return (
         jsonify(
