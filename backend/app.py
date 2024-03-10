@@ -4,6 +4,8 @@ import os
 from flask_cors import CORS
 import uuid
 from image_processing import convert_gray
+from testModel import test_model_proc
+from flask import current_app
 
 app = Flask(__name__)
 CORS(app)
@@ -18,6 +20,16 @@ app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def delete_all_files_in_folder(folder):
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        except Exception as e:
+            print(f"Error deleting file {file_path}: {e}")
 
 
 @app.route("/")
@@ -39,6 +51,8 @@ def process_image():
             jsonify({"message": "No selected file", "success": False}),
             400,  # Bad request
         )
+    # Delete Previous Images
+    delete_all_files_in_folder(app.config["UPLOAD_FOLDER"])
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
@@ -52,6 +66,12 @@ def process_image():
 
         grayscale_image, threshold_image = convert_gray(image_url)
 
+        # Model testing
+        absolute_path = os.path.join(current_app.root_path, image_url[1:])
+        print(absolute_path)
+        result_message = test_model_proc(absolute_path)
+        print(result_message)
+
         if grayscale_image is not None and threshold_image is not None:
             return (
                 jsonify(
@@ -61,6 +81,7 @@ def process_image():
                         "imageUrl": image_url,
                         "grayscale_image": grayscale_image,
                         "threshold_image": threshold_image,
+                        "result": result_message,
                     }
                 ),
                 200,

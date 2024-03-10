@@ -2,5 +2,5 @@
 	"python.terminal.activateEnvironment": true,
 	"terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
 	"python.condaPath": "C:\\Users\\mange\\Anaconda3\\Scripts\\conda.exe",
-	"cSpell.words": ["astype"]
+	"cSpell.words": ["astype", "jsonify", "retinopathy"]
 }
